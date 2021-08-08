@@ -1,0 +1,49 @@
+﻿@page
+@model Spotter.Pages.Spotted.EditModel
+
+<h4>Plane</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Plane.Id" />
+            <div class="form-group">
+                <label asp-for="Plane.Make" class="control-label"></label>
+                <input asp-for="Plane.Make" class="form-control" />
+                <span asp-validation-for="Plane.Make" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plane.Model" class="control-label"></label>
+                <input asp-for="Plane.Model" class="form-control" />
+                <span asp-validation-for="Plane.Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plane.Registration" class="control-label"></label>
+                <input asp-for="Plane.Registration" class="form-control" />
+                <span asp-validation-for="Plane.Registration" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plane.Location" class="control-label"></label>
+                <input asp-for="Plane.Location" class="form-control" />
+                <span asp-validation-for="Plane.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plane.SeenDateTime" class="control-label"></label>
+                <input asp-for="Plane.SeenDateTime" class="form-control" />
+                <span asp-validation-for="Plane.SeenDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
