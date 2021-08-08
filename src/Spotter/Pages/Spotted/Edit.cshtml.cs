@@ -12,16 +12,18 @@ namespace Spotter.Pages.Spotted
     {
         private readonly IPlaneQueryService _queryService;
         private readonly IPlaneEditService _editService;
+        private readonly IRegistrationValidationService _registrationValidationService;
         private readonly IMapper _mapper;
 
-        public EditModel(
-            IPlaneQueryService queryService, 
-            IPlaneEditService editService, 
+        public EditModel(IPlaneQueryService queryService,
+            IPlaneEditService editService,
+            IRegistrationValidationService registrationValidationService,
             IMapper mapper)
         {
             _queryService = queryService;
             _editService = editService;
             _mapper = mapper;
+            _registrationValidationService = registrationValidationService;
         }
 
         [BindProperty]
@@ -48,6 +50,13 @@ namespace Spotter.Pages.Spotted
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            (var registrationValid, var errorMessage) = await _registrationValidationService.ValidateAsync(Model.Registration);
+
+            if (!registrationValid)
+            {
+                ModelState.AddModelError("Model.Registration", errorMessage);
+            }
+
             if (!ModelState.IsValid)
             {
                 return Page();

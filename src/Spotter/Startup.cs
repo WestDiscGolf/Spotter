@@ -35,6 +35,7 @@ namespace Spotter
             services.AddTransient<IPlaneCreateService, PlaneCreateService>();
             services.AddTransient<IPlaneDeletionService, PlaneDeletionService>();
             services.AddTransient<IPlaneEditService, PlaneEditService>();
+            services.AddSingleton<IRegistrationValidationService, RegistrationValidationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
