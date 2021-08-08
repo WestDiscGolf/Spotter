@@ -1,27 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Spotter.Data;
+using Spotter.Abstractions;
 using Spotter.Models;
+using Spotter.ViewModels;
 
 namespace Spotter.Pages.Spotted
 {
     public class EditModel : PageModel
     {
-        private readonly Spotter.Data.SpotterContext _context;
+        private readonly IPlaneQueryService _queryService;
+        private readonly IPlaneEditService _editService;
+        private readonly IMapper _mapper;
 
-        public EditModel(Spotter.Data.SpotterContext context)
+        public EditModel(
+            IPlaneQueryService queryService, 
+            IPlaneEditService editService, 
+            IMapper mapper)
         {
-            _context = context;
+            _queryService = queryService;
+            _editService = editService;
+            _mapper = mapper;
         }
 
         [BindProperty]
-        public Plane Plane { get; set; }
+        public PlaneViewModel Model { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,12 +34,13 @@ namespace Spotter.Pages.Spotted
                 return NotFound();
             }
 
-            Plane = await _context.Plane.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Plane == null)
+            var plane = await _queryService.FindByIdAsync(id.Value);
+            if (plane == null)
             {
                 return NotFound();
             }
+
+            Model = _mapper.Map<PlaneViewModel>(plane);
             return Page();
         }
 
@@ -48,30 +53,18 @@ namespace Spotter.Pages.Spotted
                 return Page();
             }
 
-            _context.Attach(Plane).State = EntityState.Modified;
+            var model = _mapper.Map<Plane>(Model);
+            (var found, var updatedModel) = await _editService.UpdateAsync(model);
 
-            try
+            if (!found)
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PlaneExists(Plane.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+
+            // optional: use the updated model to return back to the edit screen and repopulate the VM to continue editing.
+            // optional: potential temp message could be added to the model to be found to the view to say it was successful.
 
             return RedirectToPage("./Index");
-        }
-
-        private bool PlaneExists(int id)
-        {
-            return _context.Plane.Any(e => e.Id == id);
         }
     }
 }
