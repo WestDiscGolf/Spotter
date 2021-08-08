@@ -4,8 +4,10 @@ using Spotter.Models;
 
 namespace Spotter.Abstractions
 {
-    public interface IPlaneListQueryService
+    public interface IPlaneQueryService
     {
         Task<List<Plane>> GetAllAsync();
+
+        Task<Plane> FindByIdAsync(int id);
     }
 }

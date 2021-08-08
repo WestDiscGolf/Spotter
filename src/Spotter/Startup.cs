@@ -32,7 +32,7 @@ namespace Spotter
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddTransient<IPlaneListQueryService, PlaneListQueryService>();
+            services.AddTransient<IPlaneQueryService, PlaneQueryService>();
             services.AddTransient<IPlaneCreateService, PlaneCreateService>();
         }
 

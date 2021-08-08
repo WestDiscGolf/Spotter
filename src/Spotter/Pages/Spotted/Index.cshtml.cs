@@ -9,11 +9,11 @@ namespace Spotter.Pages.Spotted
 {
     public class IndexModel : PageModel
     {
-        private readonly IPlaneListQueryService _queryService;
+        private readonly IPlaneQueryService _queryService;
         private readonly IMapper _mapper;
 
         public IndexModel(
-            IPlaneListQueryService queryService, 
+            IPlaneQueryService queryService, 
             IMapper mapper)
         {
             _queryService = queryService;

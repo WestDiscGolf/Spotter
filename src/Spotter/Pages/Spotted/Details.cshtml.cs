@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Spotter.Data;
-using Spotter.Models;
+using Spotter.Abstractions;
+using Spotter.ViewModels;
 
 namespace Spotter.Pages.Spotted
 {
     public class DetailsModel : PageModel
     {
-        private readonly Spotter.Data.SpotterContext _context;
+        private readonly IPlaneQueryService _queryService;
+        private readonly IMapper _mapper;
 
-        public DetailsModel(Spotter.Data.SpotterContext context)
+        public DetailsModel(
+            IPlaneQueryService queryService, 
+            IMapper mapper)
         {
-            _context = context;
+            _queryService = queryService;
+            _mapper = mapper;
         }
 
-        public Plane Plane { get; set; }
+        public PlaneViewModel Model { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,12 +29,13 @@ namespace Spotter.Pages.Spotted
                 return NotFound();
             }
 
-            Plane = await _context.Plane.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Plane == null)
+            var plane = await _queryService.FindByIdAsync(id.Value);
+            if (plane == null)
             {
                 return NotFound();
             }
+
+            Model = _mapper.Map<PlaneViewModel>(plane);
             return Page();
         }
     }
