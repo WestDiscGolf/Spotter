@@ -2,6 +2,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Spotter.Abstractions;
 using Spotter.Models;
 using Spotter.ViewModels;
 

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Spotter.Models;
 
-namespace Spotter.Pages.Spotted
+namespace Spotter.Abstractions
 {
     public interface IPlaneCreateService
     {

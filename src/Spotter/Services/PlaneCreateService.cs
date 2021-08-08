@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Spotter.Abstractions;
 using Spotter.Data;
 using Spotter.Models;
 
-namespace Spotter.Pages.Spotted
+namespace Spotter.Services
 {
     public class PlaneCreateService : IPlaneCreateService
     {

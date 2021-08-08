@@ -7,39 +7,39 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Plane.Make)
+            @Html.DisplayNameFor(model => model.Model.Make)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Plane.Make)
+            @Html.DisplayFor(model => model.Model.Make)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Plane.Model)
+            @Html.DisplayNameFor(model => model.Model.Model)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Plane.Model)
+            @Html.DisplayFor(model => model.Model.Model)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Plane.Registration)
+            @Html.DisplayNameFor(model => model.Model.Registration)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Plane.Registration)
+            @Html.DisplayFor(model => model.Model.Registration)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Plane.Location)
+            @Html.DisplayNameFor(model => model.Model.Location)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Plane.Location)
+            @Html.DisplayFor(model => model.Model.Location)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Plane.SeenDateTime)
+            @Html.DisplayNameFor(model => model.Model.SeenDateTime)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Plane.SeenDateTime)
+            @Html.DisplayFor(model => model.Model.SeenDateTime)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="Plane.Id" />
+        <input type="hidden" asp-for="Model.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>
