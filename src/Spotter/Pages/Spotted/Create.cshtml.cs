@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Spotter.Data;
 using Spotter.Models;
+using Spotter.ViewModels;
 
 namespace Spotter.Pages.Spotted
 {
     public class CreateModel : PageModel
     {
-        private readonly Spotter.Data.SpotterContext _context;
+        private readonly IPlaneCreateService _createService;
+        private readonly IMapper _mapper;
 
-        public CreateModel(Spotter.Data.SpotterContext context)
+        public CreateModel(
+            IPlaneCreateService createService, 
+            IMapper mapper)
         {
-            _context = context;
+            _createService = createService;
+            _mapper = mapper;
         }
 
         public IActionResult OnGet()
@@ -25,7 +26,7 @@ namespace Spotter.Pages.Spotted
         }
 
         [BindProperty]
-        public Plane Plane { get; set; }
+        public PlaneViewModel Model { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -35,8 +36,8 @@ namespace Spotter.Pages.Spotted
                 return Page();
             }
 
-            _context.Plane.Add(Plane);
-            await _context.SaveChangesAsync();
+            var model = _mapper.Map<Plane>(Model);
+            await _createService.SaveAsync(model);
 
             return RedirectToPage("./Index");
         }

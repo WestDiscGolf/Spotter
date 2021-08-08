@@ -4,7 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Spotter.Abstractions;
 using Spotter.Data;
+using Spotter.Pages.Spotted;
+using Spotter.Services;
 
 namespace Spotter
 {
@@ -28,6 +31,9 @@ namespace Spotter
             services.AddAutoMapper(typeof(SpotterMappingProfile).Assembly);
 
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddTransient<IPlaneListQueryService, PlaneListQueryService>();
+            services.AddTransient<IPlaneCreateService, PlaneCreateService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

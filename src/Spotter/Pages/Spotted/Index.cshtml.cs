@@ -1,26 +1,30 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Spotter.Data;
-using Spotter.Models;
+using Spotter.Abstractions;
+using Spotter.ViewModels;
 
 namespace Spotter.Pages.Spotted
 {
     public class IndexModel : PageModel
     {
-        private readonly SpotterContext _context;
+        private readonly IPlaneListQueryService _queryService;
+        private readonly IMapper _mapper;
 
-        public IndexModel(SpotterContext context)
+        public IndexModel(
+            IPlaneListQueryService queryService, 
+            IMapper mapper)
         {
-            _context = context;
+            _queryService = queryService;
+            _mapper = mapper;
         }
 
-        public IList<Plane> Plane { get;set; }
+        public IList<PlaneViewModel> Plane { get;set; }
 
         public async Task OnGetAsync()
         {
-            Plane = await _context.Plane.ToListAsync();
+            Plane = _mapper.Map<List<PlaneViewModel>>(await _queryService.GetAllAsync());
         }
     }
 }
