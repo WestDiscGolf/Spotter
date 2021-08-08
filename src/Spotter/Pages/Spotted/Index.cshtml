@@ -1,32 +1,42 @@
 ﻿@page
 @model Spotter.Pages.Spotted.IndexModel
 
+<form method="post">
+    <div class="form-group">
+        <label class="control-label">Search</label>
+        <input asp-for="SearchText" class="form-control" />
+        <div class="form-group">
+            <input type="submit" value="Search" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-primary">Log new sighting</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Plane[0].Make)
+                @Html.DisplayNameFor(model => model.Model[0].Make)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Plane[0].Model)
+                @Html.DisplayNameFor(model => model.Model[0].Model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Plane[0].Registration)
+                @Html.DisplayNameFor(model => model.Model[0].Registration)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Plane[0].Location)
+                @Html.DisplayNameFor(model => model.Model[0].Location)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Plane[0].SeenDateTime)
+                @Html.DisplayNameFor(model => model.Model[0].SeenDateTime)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Plane) {
+@foreach (var item in Model.Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Make)
@@ -44,9 +54,9 @@
                 @Html.DisplayFor(modelItem => item.SeenDateTime)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-outline-primary">Edit</a>
+                <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a>
+                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Delete</a>
             </td>
         </tr>
 }

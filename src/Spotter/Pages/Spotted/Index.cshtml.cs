@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Spotter.Abstractions;
 using Spotter.ViewModels;
@@ -20,11 +21,36 @@ namespace Spotter.Pages.Spotted
             _mapper = mapper;
         }
 
-        public IList<PlaneViewModel> Plane { get;set; }
+        [BindProperty]
+        public string SearchText { get; set; }
+
+        public IList<PlaneViewModel> Model { get;set; }
 
         public async Task OnGetAsync()
         {
-            Plane = _mapper.Map<List<PlaneViewModel>>(await _queryService.GetAllAsync());
+            Model = _mapper.Map<List<PlaneViewModel>>(await _queryService.GetAllAsync());
+        }
+
+        public async Task OnPostAsync()
+        {
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                Model = new List<PlaneViewModel>();
+                // todo: indicate no records found
+            }
+            else
+            {
+                var recordSet = await _queryService.BasicSearchAsync(SearchText);
+                if (recordSet.Count > 0)
+                {
+                    Model = _mapper.Map<List<PlaneViewModel>>(recordSet);
+                }
+                else
+                {
+                    Model = new List<PlaneViewModel>();
+                    // todo: indicate no records found
+                }
+            }
         }
     }
 }

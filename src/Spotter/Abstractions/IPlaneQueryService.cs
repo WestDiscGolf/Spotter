@@ -9,5 +9,7 @@ namespace Spotter.Abstractions
         Task<List<Plane>> GetAllAsync();
 
         Task<Plane> FindByIdAsync(int id);
+
+        Task<List<Plane>> BasicSearchAsync(string searchText);
     }
 }
